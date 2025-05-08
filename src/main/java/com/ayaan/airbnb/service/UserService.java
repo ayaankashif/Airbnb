@@ -36,4 +36,10 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public User login(String name) {
+        if (name == null){
+            return null; // Handle null values as needed
+        }
+        return userRepository.login(name);
+    }
 }
