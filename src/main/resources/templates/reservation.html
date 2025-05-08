@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Reservation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <h1>Hotel Reservation</h1>
+    <p>Book your stay at our hotel!</p>
+
+    <form th:action="@{/reservation}" th:object="${reservation}" method="post">
+        <label>Hotel ID:</label>
+        <input type="number" th:field="*{hotelId}" /><br>
+
+        <label>Total (Cost):</label>
+        <input type="number" th:field="*{total}" /><br>
+
+        <label>Check-in Date:</label>
+        <input type="date" th:field="*{checkIn}" /><br>
+
+        <label>Check-out Date:</label>
+        <input type="date" th:field="*{checkOut}" /><br>
+
+        <button type="submit">Reserve</button>
+    </form>
+    
+
+
+
+</body>
+</html>
