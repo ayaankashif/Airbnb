@@ -33,6 +33,11 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/login"; 
     }
+
+    @GetMapping("/login")
+    public String showLoginForm() { 
+        return "login";
+    }
     
     @GetMapping("/edit/{id}")
     public ModelAndView showEditForm(@PathVariable("id") Integer id) {
