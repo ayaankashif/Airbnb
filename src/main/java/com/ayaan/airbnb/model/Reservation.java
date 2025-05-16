@@ -31,6 +31,9 @@ public class Reservation extends BaseModel {
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
     private Double total;
@@ -38,4 +41,5 @@ public class Reservation extends BaseModel {
     private LocalDate checkIn;
     @Column(name = "check_out")
     private LocalDate checkOut;
+    private String city;
 }
