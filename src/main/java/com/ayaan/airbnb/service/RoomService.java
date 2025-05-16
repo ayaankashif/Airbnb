@@ -10,7 +10,7 @@ import com.ayaan.airbnb.repository.RoomRepository;
 @Service
 public class RoomService {
     
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
 
     public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
@@ -36,6 +36,11 @@ public class RoomService {
         return roomRepository.findAll();
     }
     
+    public List<Room> getRoomsByHotelId(Integer hotelId) {
+        return roomRepository.findByHotelHotelId(hotelId); 
+    }
+
+
     // public List<Room> getRoomsByUserId(int userId) {
     //     return roomRepository.findByUserId(userId);
     // }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Your Home</title>
+</head>
+<body>
+
+    <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Room Type</th>
+                <th>Summary</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.roomType}"></td>
+                <td th:text="${room.summary}"></td>
+                <td th:text="${room.hotel.hotelName}"></td>
+                <td>
+                    <a th:href="@{/room/edit/{id}(id=${room.roomId})}">Edit</a>
+                    <a th:href="@{/room/delete/{id}(id=${room.roomId})}" 
+                        onclick="return confirm('Are you sure you want to delete this ?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table> <br><br>
+
+    <h1>Host with us!</h1>
+    <form th:action="@{/room}" th:object="${room}" method="post">
+
+        <input type="hidden" th:field="*{hotel.hotelId}" />
+
+        <label>Room Type:</label> 
+        <input type="text" th:field="*{roomType}" /><br><br>
+
+        <label>Summary:</label><br>
+        <textarea th:field="*{summary}" style="width: 50%; height: 50px;"></textarea> <br><br>
+
+        <label>Price:</label>
+        <input type="text" th:field="*{price}" /><br>
+
+        <button type="submit">Register home</button>
+
+        <p th:if="${error}" th:text="${error}"></p>
+    </form>
+    
+
+    <!-- update -->
+    
+    <div th:if="${editRoom != null}">
+    <h1>Update room</h1>
+    <form th:action="@{/room/edit/{id}(id=${editRoom.roomId})}" th:object="${editRoom}" method="post">
+
+        <input type="hidden" th:field="*{hotel.hotelId}" />
+
+        <label>Room Type:</label> 
+        <input type="text" th:field="*{roomType}" /><br><br>
+
+        <label>Summary:</label><br>
+        <textarea th:field="*{summary}" style="width: 50%; height: 50px;"></textarea> <br><br>
+
+        <label>Price:</label>
+        <input type="text" th:field="*{price}" /><br>
+
+        <button type="submit">Register home</button>
+
+        <p th:if="${error}" th:text="${error}"></p>
+    </form>
+    </div>
+</body>
+</html>

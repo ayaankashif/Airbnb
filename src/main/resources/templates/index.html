@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Airbnb</title>
         <body>
-            <h1>Welcome to Airbnb</h1>
+            <h1>Welcome to Airbnb (Air Bed and Breakfast)</h1>
             <p>Register Yourself</p>
             
             <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
@@ -21,6 +21,7 @@
                         <td th:text="${user.name}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.contact}"></td>
+                        <td th:text="${user.password}"></td>
                         <td>
                             <a th:href="@{/edit/{id}(id=${user.userId})}">Edit</a>
                             <a th:href="@{/delete/{id}(id=${user.userId})}" 
@@ -30,7 +31,17 @@
                         </td>
                     </tr>
                 </tbody>
-            </table> <br><br>   
+            </table> <br><br> 
+
+        <div>
+            <button>
+                <a href="/login">Login</a>
+            </button>
+            <button>
+                <a th:href="@{/hotel/register}">Register Hotel</a>
+            </button>
+        </div>
+        <br>
 
             <form th:action="@{/register}" th:object="${user}" method="post">
                 <label>Name:</label>

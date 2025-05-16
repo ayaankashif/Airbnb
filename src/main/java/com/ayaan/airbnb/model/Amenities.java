@@ -28,12 +28,5 @@ public class Amenities {
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
-    @Column(name = "has_pool")
-    private String hasPool;
-    @Column(name = "has_bedroom")
-    private String totalBedroom;
-    @Column(name = "has_bathroom")
-    private String totalBathroom;
-    @Column(name = "has_aircon")
-    private String hasAircon;
+    private String amenities;
 }

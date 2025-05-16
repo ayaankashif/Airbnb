@@ -12,25 +12,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
 @Entity
 @Table(name = "hotel")
-public class Hotel {
+public class Hotel extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hotel_id")
     private Integer hotelId;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
-    @ManyToOne
-    @JoinColumn(name = "amenities_id")
-    private Amenities amenitiesId;
+    private User user;
     @Column (name = "hotel_name")
     private String hotelName;
     @Column (name = "hotel_type")

@@ -2,6 +2,7 @@ package com.ayaan.airbnb.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -31,12 +32,13 @@ public class Room extends BaseModel {
     @Column(name = "room_id")
     private Integer roomId;
     @ManyToOne
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
     @Column(name = "room_type")
     private String roomType;
     private String summary;
     private Double price;
-    @Column(name = "published_at")
+    @CreatedDate
+    @Column(name = "published_at", updatable = false)
     private LocalDateTime publishedAt;
 }
