@@ -11,6 +11,7 @@ import com.ayaan.airbnb.service.RoomService;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,18 +36,23 @@ public class AmenitiesController {
         if (room == null) {
             return "redirect:/room/register";
         }
+        Amenities amenities = new Amenities(); 
+        amenities.setRoom(room);
         model.addAttribute("amenity", new Amenities());
         model.addAttribute("amenities", amenitiesService.getAllAmenities());
         return "amenities";
     }
 
-
     @PostMapping("/amenities")
-    public String postMethodName(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
+    public String postMethodName(@ModelAttribute("amenity") Amenities amenity) {
+        Integer roomId = amenity.getRoom() != null ? amenity.getRoom().getRoomId() : null;
+        if (roomId != null) {
+            Room room = roomService.getRoomById(roomId);
+            amenity.setRoom(room); 
+            amenitiesService.saveAmenities(amenity);
+        }
+        return "redirect:/amenities/register?roomId=" + roomId;
     }
-    
+
 
 }
