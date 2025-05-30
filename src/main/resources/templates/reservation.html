@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,13 +8,26 @@
 <body>
     <h1>Hotel Reservation</h1>
     <p>Book your stay at our hotel!</p>
+    <!-- <a th:href="@{/reserve/hotels(userId=${user.userId})}">Already reserved customer</a> -->
+<!--     
+    <a th:href="@{/reserve/hotels(userId=${user.userId})}">Details</a><br>
 
-    <form th:action="@{/reservation}" th:object="${reserve}" method="post">
+    <a th:if="${user != null}" th:href="@{/reserve/hotels(userId=${user.userId})}" class="btn btn-primary">
+        Already reserved customer   
+    </a> -->
+    <div th:if="${hotel == null && room == null}">
+    <form th:action="@{/reserve/hotels}" th:object="${reserve}" method="get">
 
-        <input type="hidden" th:field="*{user.userId}" />        
+        <input type="hidden" th:field="*{user.userId}"/>        
         
         <label>City:</label>
-        <input type="text" th:field="*{city}" /><br>
+        <select th:field="*{city}">
+            <option th:each="city : ${cities}" 
+                    th:value="${city}" 
+                    th:text="${city}">
+            </option>
+        </select>
+        <br><br>
 
         <label>Check-in Date:</label>
         <input type="date" th:field="*{checkIn}" /><br>
@@ -22,7 +35,28 @@
         <label>Check-out Date:</label>
         <input type="date" th:field="*{checkOut}" /><br>
 
-        <button type="submit">Reserve</button>
+        <button type="submit">Search</button>
     </form>
+    </div>
+
+    <div th:if="${hotel != null && room != null}">
+        <form th:action="@{/reservation}" th:object="${user}" method="post">
+
+            <label>Name:</label>
+            <input type="text" th:field="*{name}" /><br>
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" /><br>
+
+            <label>Password:</label>
+            <input type="text" th:field="*{password}" /><br>
+
+            <label>Contact:</label>
+            <input type="text" th:field="*{contact}" /><br>
+            
+            <button type="submit">Reserve</button>
+        </form>
+    </div> 
+
 </body>
 </html>

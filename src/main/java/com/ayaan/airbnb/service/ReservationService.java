@@ -16,6 +16,10 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
+    public Reservation findByUserId(Integer userId) {
+        return reservationRepository.findTopByUser_UserIdOrderByCheckInDesc(userId);
+    }
+
     public void deleteReservation(Integer id) {
         reservationRepository.deleteById(id);
     }   

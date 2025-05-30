@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Airbnb</title>
+</head>
+<body>
+    <div th:if="${hotel == null}">
+    <h1 th:text = "'Best Suited Hotels for you in ' + ${city}"></h1><br>
+    <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Hotel</th>
+                <th>hotel type</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="hotel : ${hotels}">
+                <td th:text="${hotel.hotelName}"></td>
+                <td th:text="${hotel.hotelType}"></td>
+                <td th:text="${hotel.address}"></td>
+                <td>
+                    <!-- <a th:href="@{/reserve/hotels(hotelId=${hotel.hotelId}, userId=${user.userId})}">Details</a> -->
+                    <a th:href="@{/reserve/hotels/room(hotelId=${hotel.hotelId})}">Details</a>
+                </td>
+            </tr>
+        </tbody>
+    </table> <br><br>
+</div>
+
+<div th:if="${hotel != null}">
+    <h1>Rooms</h1>
+    <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Room Type</th>
+                <th>Summary</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${roomAvailabilityMap}">
+                <td th:text="${entry.key.roomType}"></td>
+                <td th:text="${entry.key.summary}"></td>
+                <td th:text="${entry.key.price}"></td>
+                <td>
+                    <a th:href="@{/reserve/hotels/room/amenities(roomId=${entry.key.roomId}, hotelId=${hotel.hotelId})}">Details</a>
+                </td>
+                <td th:text="${entry.value ? 'Available' : 'Booked'}"
+                    th:classappend="${entry.value ? 'text-success' : 'text-danger'}">
+                </td>
+                <td>
+                    <form th:action="@{/reserve/form}" method="get">
+                        <input type="hidden" name="roomId" th:value="${entry.key.roomId}" />
+                        <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
+                        <button type="submit" th:disabled="${!entry.value}">Reserve</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table> <br><br>
+
+    <div th:if="${selectedRoom != null}">
+    <h1>Amenities</h1>
+    <table border="1" style="border-collapse: collapse; width: 20%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Amenities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="amenity : ${amenities}">
+                <td th:text="${amenity.amenities}"></td>
+            </tr>
+        </tbody>
+    </table> <br><br>
+    </div>
+</div>
+
+
+
+
+
+<!-- 
+    <h1>Hotel Registration</h1>
+    <p>Register your hotel with us!</p>
+    <form th:action="@{/hotel}" th:object="${hotel}" method="post">
+        <label>Hotel Name:</label> 
+        <input type="text" th:field="*{hotelName}" /><br>
+
+        <label>Hotel Type:</label>
+        <input type="text" th:field="*{hotelType}" /><br>
+
+        <label>Address:</label>
+        <input type="text" th:field="*{address}" /><br>
+
+        <label>City:</label>
+        <input type="text" th:field="*{city}" /><br>
+
+        <button type="submit">Create Hotel</button>
+
+        <p th:if="${error}" th:text="${error}"></p>
+    </form>
+    
+     update
+    <div th:if="${editHotel != null}">
+    <form th:action="@{/hotel/edit/{id}(id=${editHotel.hotelId})}" th:object="${editHotel}" method="post">
+        <h1>Update</h1>
+        <label>Hotel Name:</label> 
+        <input type="text" th:field="*{hotelName}" /><br>
+
+        <label>Hotel Type:</label>
+        <input type="text" th:field="*{hotelType}" /><br>
+
+        <label>Address:</label>
+        <input type="text" th:field="*{address}" /><br>
+
+        <label>City:</label>
+        <input type="text" th:field="*{city}" /><br>
+
+        <button type="submit">Update</button>
+    </form>
+    </div> -->
+</body>
+</html>

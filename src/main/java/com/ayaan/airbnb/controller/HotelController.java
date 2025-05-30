@@ -16,7 +16,7 @@ public class HotelController {
     
     private final HotelService hotelService;
     private final UserService userService;
- 
+    
     public HotelController(HotelService hotelService, UserService userService) {
         this.userService = userService;
         this.hotelService = hotelService;

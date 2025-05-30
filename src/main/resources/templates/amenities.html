@@ -20,7 +20,24 @@
 
         <p th:if="${error}" th:text="${error}"></p>
     </form>
-    
+
+    <h1>Amenities</h1>
+    <table border="1" style="border-collapse: collapse; width: 20%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Amenities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="amenity : ${amenities}">
+                <td th:text="${amenity.amenities}"></td>
+                <td>
+                    <!-- <a th:href="@{/amenities/register(roomId=${room.roomId})}">Reserve</a> -->
+                </td>
+            </tr>
+        </tbody>
+    </table> <br><br>
+
     <!-- update -->
     <div th:if="${editHotel != null}">
     <form th:action="@{/hotel/edit/{id}(id=${editHotel.hotelId})}" th:object="${editHotel}" method="post">
