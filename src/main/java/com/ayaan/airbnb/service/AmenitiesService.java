@@ -15,6 +15,10 @@ public class AmenitiesService {
         this.amenitiesRepository = amenitiesRepository;
     }
     
+    public List<Amenities> getAmenitiesByRoomId(Integer id){
+        return amenitiesRepository.findByRoomRoomId(id);
+    }
+
     public List<Amenities> getAllAmenities() {
         return amenitiesRepository.findAll();
     }

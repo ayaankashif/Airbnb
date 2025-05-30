@@ -16,6 +16,10 @@ public class HotelService {
         this.hotelRepository = hotelRepository;
     }
 
+    public List<Hotel> getHotelByCity(String city){
+        return hotelRepository.findByCity(city);
+    }
+
     public List<Hotel> getAllHotels() {
         return hotelRepository.findAll();
     }
