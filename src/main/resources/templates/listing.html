@@ -32,32 +32,59 @@
 
 <div th:if="${hotel != null}">
     <h1>Rooms</h1>
+    <p th:if="${availableRooms > 0}" th:text="${availableRooms + ' rooms are currently available.'}" style = "color:rgb(7, 66, 7)"></p>
+    <p th:if="${availableRooms == 0}" style="color: red;">
+        No rooms are currently available.
+    </p>
     <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
         <thead>
             <tr>
                 <th>Room Type</th>
                 <th>Summary</th>
                 <th>Price</th>
+                <th>Quantity and Total</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="entry : ${roomAvailabilityMap}">
                 <td th:text="${entry.key.roomType}"></td>
                 <td th:text="${entry.key.summary}"></td>
-                <td th:text="${entry.key.price}"></td>
+                <td  style="margin-top: 5px; display: flex; align-items: center;">
+                    <span th:text="${entry.key.price}"></span> USD
+                </td>
+                
+                <td style="text-align: center;">
+                    <form th:action="@{/reserve/form}" method="get" 
+                        style="display: flex; align-items: center; gap: 10px;"
+                        th:with="roomPrice=${entry.key.price}">
+
+                        <input type="hidden" name="roomId" th:value="${entry.key.roomId}" />
+                        <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
+                        <input type="hidden" name="price" th:value="${entry.key.price}" />
+
+                        <select name="roomQuantity" class="quantity-dropdown" 
+                                th:attr="data-price=${entry.key.price}" style="padding: 4px;">
+                            <option th:each="i : ${#numbers.sequence(1, entry.key.roomQuantity)} "
+                                    th:value="${i}" th:text="${i}">1</option>
+                        </select>
+
+                        <button type="submit" th:disabled="${!entry.value}" style="padding: 4px 10px;">Reserve</button>
+                       
+
+                        <span class="price-output" th:text="${entry.key.price}"></span> PKR</span>
+                       
+                        
+                    </form>
+                </td>
+
                 <td>
                     <a th:href="@{/reserve/hotels/room/amenities(roomId=${entry.key.roomId}, hotelId=${hotel.hotelId})}">Details</a>
                 </td>
+                
                 <td th:text="${entry.value ? 'Available' : 'Booked'}"
-                    th:classappend="${entry.value ? 'text-success' : 'text-danger'}">
+                    th:classappend="${entry.value ? 'text-success' : 'text-danger'}">   
                 </td>
-                <td>
-                    <form th:action="@{/reserve/form}" method="get">
-                        <input type="hidden" name="roomId" th:value="${entry.key.roomId}" />
-                        <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
-                        <button type="submit" th:disabled="${!entry.value}">Reserve</button>
-                    </form>
-                </td>
+
             </tr>
         </tbody>
     </table> <br><br>
@@ -123,5 +150,22 @@
         <button type="submit">Update</button>
     </form>
     </div> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const quantityDropdowns = document.querySelectorAll(".quantity-dropdown");
+
+            quantityDropdowns.forEach(dropdown => {
+                const pricePerRoom = parseFloat(dropdown.getAttribute("data-price"));
+                const priceOutput = dropdown.closest("form").querySelector(".price-output");
+
+                dropdown.addEventListener("change", function () {
+                    const quantity = parseInt(dropdown.value);
+                    if (!isNaN(quantity) && priceOutput) {
+                        priceOutput.textContent = pricePerRoom * quantity;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

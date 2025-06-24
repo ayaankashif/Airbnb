@@ -17,5 +17,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Query("SELECT COUNT(r) FROM Reservation r WHERE r.room.id = :roomId AND NOT (r.checkOut <= :checkIn OR r.checkIn >= :checkOut)")
     long countOverlappingReservations(@Param("roomId") Integer roomId,
                                     @Param("checkIn") LocalDate checkIn,
-                                    @Param("checkOut") LocalDate checkOut);
+                                    @Param("checkOut") LocalDate checkOut
+                                    );
+
+    @Query("SELECT COALESCE(SUM(r.roomsBooked), 0) FROM Reservation r " +
+       "WHERE r.room.id = :roomId AND NOT (r.checkOut <= :checkIn OR r.checkIn >= :checkOut)")
+    int totalRoomsBookedBetweenDates(@Param("roomId") Integer roomId,
+                                 @Param("checkIn") LocalDate checkIn,
+                                 @Param("checkOut") LocalDate checkOut);
+
 }

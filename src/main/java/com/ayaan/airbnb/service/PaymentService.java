@@ -14,19 +14,19 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public Payment saveHotel(Payment payment) {
+    public Payment savePayament(Payment payment) {
         return paymentRepository.save(payment);
     }
 
-    public Payment getHotelById(int id) {
+    public Payment getPaymentById(int id) {
         return paymentRepository.findById(id).orElse(null);
     }
 
-    public Payment updateHotel(Payment payment) {
+    public Payment updatePayment(Payment payment) {
         return paymentRepository.save(payment);
     }
 
-    public void deleteHotel(Integer id){
+    public void deletePayment(Integer id){
         paymentRepository.deleteById(id);
     }
 }

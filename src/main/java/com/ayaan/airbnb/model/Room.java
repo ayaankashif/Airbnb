@@ -34,8 +34,11 @@ public class Room extends BaseModel {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
+    // @ManyToOne
     @Column(name = "room_type")
     private String roomType;
+    @Column(name = "room_quantity") 
+    private Integer roomQuantity;
     private String summary;
     private Double price;
     @CreatedDate

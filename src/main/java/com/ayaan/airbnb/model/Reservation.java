@@ -42,4 +42,6 @@ public class Reservation extends BaseModel {
     @Column(name = "check_out")
     private LocalDate checkOut;
     private String city;
+    @Column(name = "rooms_booked")
+    private Integer roomsBooked;
 }
