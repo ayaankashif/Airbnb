@@ -44,7 +44,8 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam("name") String name, 
-                            @RequestParam("password") String password, Model model) {
+                            @RequestParam("password") String password, 
+                            Model model) {
         try{
             User existingUser = userService.getUserByUsername(name);
             if (existingUser != null && existingUser.getPassword().equals(password)) {
