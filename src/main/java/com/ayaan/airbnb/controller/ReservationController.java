@@ -1,6 +1,7 @@
 package com.ayaan.airbnb.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.ayaan.airbnb.model.Hotel;
+import com.ayaan.airbnb.model.Payment;
 import com.ayaan.airbnb.model.Reservation;
 import com.ayaan.airbnb.model.Room;
 import com.ayaan.airbnb.model.User;
@@ -30,19 +32,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ReservationController {
 
     private final AmenitiesService amenitiesService;
-
     private final RoomService roomService;
     private final HotelService hotelService;
     private final ReservationService reservationService;
     private final UserService userService;
+    private final PaymentService paymentService;
 
-
-    public ReservationController(ReservationService reservationService, HotelService hotelService, UserService userService, RoomService roomService, AmenitiesService amenitiesService) {
+    public ReservationController(ReservationService reservationService, HotelService hotelService, UserService userService, RoomService roomService, AmenitiesService amenitiesService, PaymentService paymentService) {
         this.userService = userService;
         this.reservationService = reservationService;
         this.hotelService = hotelService;
         this.roomService = roomService;
         this.amenitiesService = amenitiesService;
+        this.paymentService = paymentService;
     }
 
     @ModelAttribute("reservation")
@@ -50,10 +52,31 @@ public class ReservationController {
         return new Reservation();  
     }
 
-    @GetMapping("/confirmation")
-    public String showConfirmation() {
-        return "confirmation"; 
+    @GetMapping("/about")
+    public String about() {
+        return "about"; 
     }
+    @GetMapping("/elements")
+    public String elements() {
+        return "elements"; 
+    }
+    @GetMapping("/blog")
+    public String blog() {
+        return "blog"; 
+    }
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact"; 
+    }
+    @GetMapping("/rooms")
+    public String rooms() {
+        return "rooms"; 
+    }
+    @GetMapping("/single-blog")
+    public String singleBlog() {
+        return "single-blog"; 
+    }
+
 
     @GetMapping("/reserve")
     public String showReservationForm(Model model) {
@@ -156,12 +179,20 @@ public class ReservationController {
 
         Room room = roomService.getRoomById(roomId);
         Hotel hotel = hotelService.getHotelById(hotelId);
+                                        
+        LocalDate checkIn = reservation.getCheckIn();
+        LocalDate checkOut = reservation.getCheckOut();
         
+        if(!reservationService.recheckReservationAvailability(room.getRoomId(), checkIn, checkOut)) {
+            model.addAttribute("error", "Selected room is not available for the given dates.");
+            return "redirect:/reserve/hotels/room/amenities?hotelId=" + hotelId + "&roomId=" + roomId; 
+        }
+
         reservation.setHotel(hotel);
         reservation.setRoom(room);
         reservation.setRoomsBooked(roomQuantity);
-        reservation.setTotal(room.getPrice() * roomQuantity);                                        
-
+        reservation.setTotal(room.getPrice() * roomQuantity);
+        
         model.addAttribute("roomQuantity", roomQuantity);
         model.addAttribute("hotel", hotel);
         model.addAttribute("room", room);
@@ -174,6 +205,7 @@ public class ReservationController {
     @PostMapping("/reservation")
     public String submitReservation(@ModelAttribute("reservation") Reservation reservation,
                                     @ModelAttribute User user,
+                                    @ModelAttribute Payment payment,
                                     SessionStatus status,
                                     RedirectAttributes redirectAttributes,
                                     Model model) {  
@@ -181,6 +213,10 @@ public class ReservationController {
         userService.saveUser(user);
         reservation.setUser(user);
         reservationService.saveReservation(reservation);
+        payment.setTotal(reservation.getTotal());
+        payment.setPaymentDate(LocalDateTime.now());
+        payment.setReservation(reservation);
+        paymentService.savePayament(payment);
         status.setComplete();
         redirectAttributes.addFlashAttribute("success", "Reservation done!");
 

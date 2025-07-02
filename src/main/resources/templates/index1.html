@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Airbnb</title>
+        <body>
+            <h1>Welcome to Airbnb (Air Bed and Breakfast)</h1>
+            <p>Register Yourself</p>
+            
+            <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.contact}"></td>
+                        <td th:text="${user.password}"></td>
+                        <td>
+                            <a th:href="@{/edit/{id}(id=${user.userId})}">Edit</a>
+                            <a th:href="@{/delete/{id}(id=${user.userId})}" 
+                                onclick="return confirm('Are you sure you want to delete this user?');">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table> <br><br> 
+
+        <div>
+            <button>
+                <a href="/login">Login</a>
+            </button>
+            <button>
+                <a th:href="@{/reserve}">Reserve</a>
+            </button>
+            <button>
+                <a th:href="@{/hotel/register}">Register Hotel</a>
+            </button>
+        </div>
+        <br>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <label>Name:</label>
+                <input type="text" th:field="*{name}" /><br>
+
+                <label>Email:</label>
+                <input type="email" th:field="*{email}" /><br>
+
+                <label>Password:</label>
+                <input type="text" th:field="*{password}" /><br>
+
+                <label>Contact:</label>
+                <input type="text" th:field="*{contact}" /><br>
+                
+                <label>Role:</label>
+                <input type="text" th:field="*{role}" /><br>
+
+                <button type="submit">Register</button>
+            </form>
+
+        </body>
+    </head>
+</html>
