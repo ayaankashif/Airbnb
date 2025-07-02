@@ -53,4 +53,8 @@ public class ReservationService {
         return Math.max(totalQuantity - alreadyBooked, 0);
     }
 
+    public boolean recheckReservationAvailability(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+        return roomService.isRoomAvailableDuring(roomId, checkIn, checkOut);
+    }
+    
 }

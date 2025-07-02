@@ -33,9 +33,6 @@
 <div th:if="${hotel != null}">
     <h1>Rooms</h1>
     <p th:if="${availableRooms > 0}" th:text="${availableRooms + ' rooms are currently available.'}" style = "color:rgb(7, 66, 7)"></p>
-    <p th:if="${availableRooms == 0}" style="color: red;">
-        No rooms are currently available.
-    </p>
     <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
         <thead>
             <tr>
@@ -57,6 +54,8 @@
                     <form th:action="@{/reserve/form}" method="get" 
                         style="display: flex; align-items: center; gap: 10px;"
                         th:with="roomPrice=${entry.key.price}">
+ 
+                        <p th:if="${error}" th:text="${error}" ></p> 
 
                         <input type="hidden" name="roomId" th:value="${entry.key.roomId}" />
                         <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
@@ -68,12 +67,17 @@
                                     th:value="${i}" th:text="${i}">1</option>
                         </select>
 
-                        <button type="submit" th:disabled="${!entry.value}" style="padding: 4px 10px;">Reserve</button>
-                       
+                        <p th:if="${availableRooms == 0}" style="color: red;">
+                            No rooms are currently available.
+                            <button type="submit" th:disabled="${!entry.value}" style="padding: 4px 10px;">Reserve</button>
+                        </p>
+                        <p>
+                            <span th:if="${availableRooms > 0}" style="color: green;">
+                                <button type="submit" th:disabled="${entry.value}" style="padding: 4px 10px;">Reserve</button>
+                            </span>
+                        </p>
 
-                        <span class="price-output" th:text="${entry.key.price}"></span> PKR</span>
-                       
-                        
+                        <span class="price-output" th:text="${entry.key.price}"></span> USD</span>              
                     </form>
                 </td>
 
@@ -81,8 +85,8 @@
                     <a th:href="@{/reserve/hotels/room/amenities(roomId=${entry.key.roomId}, hotelId=${hotel.hotelId})}">Details</a>
                 </td>
                 
-                <td th:text="${entry.value ? 'Available' : 'Booked'}"
-                    th:classappend="${entry.value ? 'text-success' : 'text-danger'}">   
+                <td th:style="${availableRooms == 0 ? 'color: red;' : 'color: green;'}">
+                    <span th:text="${availableRooms == 0 ? 'Booked' : 'Available'}"></span>   
                 </td>
 
             </tr>

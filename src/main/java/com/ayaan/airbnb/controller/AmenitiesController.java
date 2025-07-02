@@ -48,6 +48,4 @@ public class AmenitiesController {
         }
         return "redirect:/hotel/register";
     }
-    
-
 }
