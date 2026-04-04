@@ -27,7 +27,7 @@ public class UserController {
     public ModelAndView getUserProfile(ModelAndView modelAndView) {
         modelAndView.addObject("users", userService.getAllUsers());
         modelAndView.addObject("user", new User());
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("index1");
         return modelAndView;
     }   
 

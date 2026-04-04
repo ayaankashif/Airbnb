@@ -52,30 +52,30 @@ public class ReservationController {
         return new Reservation();  
     }
 
-    @GetMapping("/about")
-    public String about() {
-        return "about"; 
-    }
-    @GetMapping("/elements")
-    public String elements() {
-        return "elements"; 
-    }
-    @GetMapping("/blog")
-    public String blog() {
-        return "blog"; 
-    }
-    @GetMapping("/contact")
-    public String contact() {
-        return "contact"; 
-    }
-    @GetMapping("/rooms")
-    public String rooms() {
-        return "rooms"; 
-    }
-    @GetMapping("/single-blog")
-    public String singleBlog() {
-        return "single-blog"; 
-    }
+    // @GetMapping("/about")
+    // public String about() {
+    //     return "about"; 
+    // }
+    // @GetMapping("/elements")
+    // public String elements() {
+    //     return "elements"; 
+    // }
+    // @GetMapping("/blog")
+    // public String blog() {
+    //     return "blog"; 
+    // }
+    // @GetMapping("/contact")
+    // public String contact() {
+    //     return "contact"; 
+    // }
+    // @GetMapping("/rooms")
+    // public String rooms() {
+    //     return "rooms"; 
+    // }
+    // @GetMapping("/single-blog")
+    // public String singleBlog() {
+    //     return "single-blog"; 
+    // }
 
 
     @GetMapping("/reserve")
@@ -125,7 +125,6 @@ public class ReservationController {
             }
             model.addAttribute("hotel", hotel);
             model.addAttribute("roomAvailabilityMap", roomAvailabilityMap);
-            
             
         }
         return "listing";
@@ -181,9 +180,9 @@ public class ReservationController {
         Hotel hotel = hotelService.getHotelById(hotelId);
                                         
         LocalDate checkIn = reservation.getCheckIn();
-        LocalDate checkOut = reservation.getCheckOut();
-        
-        if(!reservationService.recheckReservationAvailability(room.getRoomId(), checkIn, checkOut)) {
+        LocalDate checkOut = reservation.getCheckOut();        
+
+        if(reservationService.getAvailableRooms(room.getRoomId(), checkIn, checkOut) == 0) {
             model.addAttribute("error", "Selected room is not available for the given dates.");
             return "redirect:/reserve/hotels/room/amenities?hotelId=" + hotelId + "&roomId=" + roomId; 
         }
@@ -220,6 +219,6 @@ public class ReservationController {
         status.setComplete();
         redirectAttributes.addFlashAttribute("success", "Reservation done!");
 
-        return "redirect:/confirmation";  
+        return "redirect:/reserve";  
     }
 }

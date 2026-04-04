@@ -37,7 +37,7 @@ public class RoomController {
         model.addAttribute("rooms", roomService.getRoomsByHotelId(id));
         room.setHotel(hotel); 
         model.addAttribute("room", room);
-        return "room";
+        return "room1";
     }
     
     @PostMapping("/room")

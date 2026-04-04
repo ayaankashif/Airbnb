@@ -6,6 +6,7 @@
     <title>Reservation</title>
 </head>
 <body>
+    <p th:if="${success}" th:text="${success}" style = "color:green"></p>
     <h1>Hotel Reservation</h1>
     <p>Book your stay at our hotel!</p>
     <!-- <a th:href="@{/reserve/hotels(userId=${user.userId})}">Already reserved customer</a> -->

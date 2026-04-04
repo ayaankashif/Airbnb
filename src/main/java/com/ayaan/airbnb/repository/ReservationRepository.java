@@ -25,5 +25,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     int totalRoomsBookedBetweenDates(@Param("roomId") Integer roomId,
                                  @Param("checkIn") LocalDate checkIn,
                                  @Param("checkOut") LocalDate checkOut);
-
 }

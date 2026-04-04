@@ -69,12 +69,10 @@
 
                         <p th:if="${availableRooms == 0}" style="color: red;">
                             No rooms are currently available.
-                            <button type="submit" th:disabled="${!entry.value}" style="padding: 4px 10px;">Reserve</button>
+                            <button type="submit" disabled style="padding: 4px 10px;">Reserve</button>
                         </p>
-                        <p>
-                            <span th:if="${availableRooms > 0}" style="color: green;">
-                                <button type="submit" th:disabled="${entry.value}" style="padding: 4px 10px;">Reserve</button>
-                            </span>
+                        <p th:if="${availableRooms > 0}" style="color: green;">
+                            <button type="submit" style="padding: 4px 10px;">Reserve</button>
                         </p>
 
                         <span class="price-output" th:text="${entry.key.price}"></span> USD</span>              
